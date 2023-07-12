@@ -19,7 +19,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         PreparedStatement statement = dbConnection.prepareStatement(sql);
 
         // Setting the values for the parameters
-        statement.setInt(1, 1); // Employee id
+        statement.setInt(1, 2); // Employee id
         statement.setString(2, "John Doe"); // Employee name
         statement.setInt(3, 30); // Employee age
         statement.setString(4, "IT"); // Employee department
@@ -118,7 +118,34 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees() throws SQLException {
+        // SQL query to retrieve all employees
+        String sql = "SELECT id, name, age, department FROM employee";
+
+        // Creating a prepared statement with the query
+        PreparedStatement statement = dbConnection.prepareStatement(sql);
+
+        // Executing the query
+        ResultSet resultSet = statement.executeQuery();
+
+        // Processing the result set
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int age = resultSet.getInt("age");
+            String department = resultSet.getString("department");
+
+            // Print or use the retrieved employee data as needed
+            System.out.println("Employee ID: " + id);
+            System.out.println("Name: " + name);
+            System.out.println("Age: " + age);
+            System.out.println("Department: " + department);
+            System.out.println("------------------------");
+        }
+
+        // Closing the result set, statement, and connection
+        resultSet.close();
+        statement.close();
         return null;
     }
 }

@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -8,7 +9,8 @@ public class Main {
 //        employeeDAO.addEmployee(employee);
         //get employee by id
 
-        Employee employee = new Employee("1", "John Doe", 30, "IT");
-         employeeDAO.updateEmployee(employee);
+//        Employee employee = new Employee("1", "John Doe", 30, "IT");
+//         employeeDAO.updateEmployee(employee);
+        List<Employee> employees = employeeDAO.getAllEmployees();
     }
 }
