@@ -67,8 +67,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             int age = resultSet.getInt(DataAccessConstants.EMPLOYEE_AGE_COLUMN);
             String department = resultSet.getString(DataAccessConstants.EMPLOYEE_DEPARTMENT_COLUMN);
             employee = new Employee(employeeId, name, age, department);
-        } else {
+
+            // Closing the result set, and statement
+            statement.close();
             resultSet.close();
+        } else {
             throw new EmployeeNotFoundException(DataAccessConstants.NO_EMPLOYEE_WITH_ID_ERR_MSG);
         }
         return employee;
@@ -98,8 +101,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 System.out.println(DataAccessConstants.NO_EMPLOYEE_WITH_ID_ERR_MSG);
             }
 
-            // Closing the statement and connection
+            // Closing the result set, and statement
             statement.close();
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -125,8 +129,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             } else {
                 System.out.println(DataAccessConstants.NO_EMPLOYEE_WITH_ID_ERR_MSG);
             }
+            // Closing the result set, and statement
             statement.close();
-
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -156,7 +161,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 employees.add(employee);
             }
 
-            // Closing the result set, statement, and connection
+            // Closing the result set, and statement
             resultSet.close();
             statement.close();
 
