@@ -1,7 +1,7 @@
 import java.sql.SQLException;
 import java.util.List;
 
-public class Main {
+public class EmployeeManagmentSystem {
     public static void main(String[] args) throws SQLException {
         EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
         //create employee

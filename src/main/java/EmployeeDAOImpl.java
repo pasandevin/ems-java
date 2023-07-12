@@ -5,9 +5,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     Connection dbConnection;
 
-    EmployeeDAOImpl() throws SQLException {
-        SQLDatabase sqlDatabase = new SQLDatabase();
-        dbConnection= sqlDatabase.getDBConnection();
+    EmployeeDAOImpl() {
+        dbConnection= SQLDatabase.getDBConnection();
     }
 
 

@@ -1,6 +1,5 @@
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public interface Database {
-    Connection getDBConnection() throws SQLException;
+    Connection createDBConnection();
 }
