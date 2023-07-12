@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO{
@@ -11,60 +12,65 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
 
     @Override
-    public void addEmployee(Employee employee) throws SQLException {
+    public void addEmployee(Employee employee) {
         String sql = "INSERT INTO employee (id, name, age, department) VALUES (?, ?, ?, ?)";
 
         // Creating a prepared statement with the query
-        PreparedStatement statement = dbConnection.prepareStatement(sql);
+        PreparedStatement statement;
+        try {
+            statement = dbConnection.prepareStatement(sql);
 
-        // Setting the values for the parameters
-        statement.setInt(1, 2); // Employee id
-        statement.setString(2, "John Doe"); // Employee name
-        statement.setInt(3, 30); // Employee age
-        statement.setString(4, "IT"); // Employee department
+            // Setting the values for the parameters
+            statement.setInt(1, employee.getId());
+            statement.setString(2, employee.getName());
+            statement.setInt(3, employee.getAge());
+            statement.setString(4, employee.getDepartment());
 
-        // Executing the query
-        int rowsInserted = statement.executeUpdate();
-        if (rowsInserted > 0) {
-            System.out.println("Employee added successfully!");
+            // Executing the query
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                System.out.println("Employee added successfully!");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Employee getEmployeeById(int id) throws SQLException {
+    public Employee getEmployeeById(int employeeId) throws EmployeeNotFoundException {
 
         // SQL query to retrieve an employee
         String sql = "SELECT id, name, age, department FROM employee WHERE id = ?";
 
-        // Creating a prepared statement with the query
-        PreparedStatement statement = dbConnection.prepareStatement(sql);
+        try {
+            // Creating a prepared statement with the query
+            PreparedStatement statement = dbConnection.prepareStatement(sql);
 
-        // Setting the employee ID parameter
-        int employeeId = 1; // Replace with the desired employee ID
-        statement.setInt(1, employeeId);
+            // Setting the employee ID parameter
+            statement.setInt(1, employeeId);
 
-        // Executing the query
-        ResultSet resultSet = statement.executeQuery();
-        //convert resultset to employee object
+            // Executing the query
+            ResultSet resultSet = statement.executeQuery();
 
+            Employee employee;
 
-        // Processing the result set
-        if (resultSet.next()) {
-            String name = resultSet.getString("name");
-            int age = resultSet.getInt("age");
-            String department = resultSet.getString("department");
-
-            // Print or use the retrieved employee data as needed
-            System.out.println("Employee ID: " + id);
-            System.out.println("Name: " + name);
-            System.out.println("Age: " + age);
-            System.out.println("Department: " + department);
-        } else {
-            System.out.println("Employee not found.");
-
+            // Processing the result set
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String department = resultSet.getString("department");
+                employee = new Employee(employeeId, name, age, department);
+                return employee;
+            } else {
+                resultSet.close();
+                throw new EmployeeNotFoundException("No employee with the given id found in the database");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        statement.close();
-        return null;
     }
 
     @Override
@@ -77,10 +83,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         PreparedStatement statement = dbConnection.prepareStatement(sql);
 
         // Setting the parameters
-        statement.setString(1, "New Name"); // New name for the employee
-        statement.setInt(2, 35); // New age for the employee
-        statement.setString(3, "New Department"); // New department for the employee
-        statement.setInt(4, 1); // ID of the employee to update
+        statement.setString(1, employee.getName());
+        statement.setInt(2, employee.getAge());
+        statement.setString(3, employee.getDepartment());
+        statement.setInt(4, employee.getId());
 
         // Executing the query
         int rowsUpdated = statement.executeUpdate();
@@ -103,7 +109,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         PreparedStatement statement = dbConnection.prepareStatement(sql);
 
         // Setting the employee ID parameter
-        int employeeId = 1; // Replace with the ID of the employee you want to delete
+        int employeeId = id; // Replace with the ID of the employee you want to delete
         statement.setInt(1, employeeId);
 
         // Executing the query
@@ -127,24 +133,21 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         // Executing the query
         ResultSet resultSet = statement.executeQuery();
 
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+
         // Processing the result set
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             int age = resultSet.getInt("age");
             String department = resultSet.getString("department");
-
-            // Print or use the retrieved employee data as needed
-            System.out.println("Employee ID: " + id);
-            System.out.println("Name: " + name);
-            System.out.println("Age: " + age);
-            System.out.println("Department: " + department);
-            System.out.println("------------------------");
+            Employee employee = new Employee(id, name, age, department);
+            employees.add(employee);
         }
 
         // Closing the result set, statement, and connection
         resultSet.close();
         statement.close();
-        return null;
+        return employees;
     }
 }
