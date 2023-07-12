@@ -18,7 +18,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void addEmployee(Employee employee) {
 
-        String sql = "INSERT INTO employee (id, name, age, department) VALUES (?, ?, ?, ?)";
+        String sql = SQLQueryConstants.INSERT_EMPLOYEE;
 
         try {
             statement = dbConnection.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public Employee getEmployeeById(int employeeId) throws EmployeeNotFoundException, SQLException {
 
         // SQL query to retrieve an employee
-        String sql = "SELECT id, name, age, department FROM employee WHERE id = ?";
+        String sql = SQLQueryConstants.GET_EMPLOYEE_BY_ID;
 
         // Creating a prepared statement with the query
         statement = dbConnection.prepareStatement(sql);
@@ -65,18 +65,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             int age = resultSet.getInt("age");
             String department = resultSet.getString("department");
             employee = new Employee(employeeId, name, age, department);
-            return employee;
         } else {
             resultSet.close();
             throw new EmployeeNotFoundException("No employee with the given id found in the database");
         }
+        return employee;
     }
 
     @Override
     public void updateEmployee(Employee employee) {
 
         // SQL query to update an employee
-        String sql = "UPDATE employee SET name = ?, age = ?, department = ? WHERE id = ?";
+        String sql = SQLQueryConstants.UPDATE_EMPLOYEE;
 
         try {
             // Creating a prepared statement with the query
@@ -106,7 +106,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void deleteEmployee(int id) {
         // SQL query to delete an employee
-        String sql = "DELETE FROM employee WHERE id = ?";
+        String sql = SQLQueryConstants.DELETE_EMPLOYEE_BY_ID;
 
         try {
             // Creating a prepared statement with the query
@@ -133,7 +133,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() throws SQLException, EmployeeNotFoundException {
         // SQL query to retrieve all employees
-        String sql = "SELECT id, name, age, department FROM employee";
+        String sql = SQLQueryConstants.GET_ALL_EMPLOYEES;
 
         ArrayList<Employee> employees = new ArrayList<Employee>();
 
