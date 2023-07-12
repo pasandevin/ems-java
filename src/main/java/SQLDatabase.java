@@ -18,10 +18,13 @@ public class SQLDatabase implements Database{
     }
 
     public Connection createDBConnection()  {
-        String jdbcUrl = "jdbc:mysql://localhost:8889/ems";
-        String username = "root";
-        String password = "root";
+        String jdbcUrl = System.getenv("JDBC_URL");
+        String username = System.getenv("USER_NAME");
+        String password = System.getenv("PASSWORD");
 
+        if(jdbcUrl == null || username == null || password == null) {
+            throw new RuntimeException("Environment variables are not set");
+        }
 
         try {
             connection = DriverManager.getConnection(jdbcUrl, username, password);
