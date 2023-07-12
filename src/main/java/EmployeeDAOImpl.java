@@ -64,13 +64,35 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             System.out.println("Employee not found.");
 
         }
+        statement.close();
         return null;
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) throws SQLException {
 
+        // SQL query to update an employee
+        String sql = "UPDATE employee SET name = ?, age = ?, department = ? WHERE id = ?";
 
+        // Creating a prepared statement with the query
+        PreparedStatement statement = dbConnection.prepareStatement(sql);
+
+        // Setting the parameters
+        statement.setString(1, "New Name"); // New name for the employee
+        statement.setInt(2, 35); // New age for the employee
+        statement.setString(3, "New Department"); // New department for the employee
+        statement.setInt(4, 1); // ID of the employee to update
+
+        // Executing the query
+        int rowsUpdated = statement.executeUpdate();
+        if (rowsUpdated > 0) {
+            System.out.println("Employee updated successfully!");
+        } else {
+            System.out.println("No employee found with the specified ID.");
+        }
+
+        // Closing the statement and connection
+        statement.close();
     }
 
     @Override
@@ -92,6 +114,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         } else {
             System.out.println("No employee found with the specified ID.");
         }
+        statement.close();
     }
 
     @Override

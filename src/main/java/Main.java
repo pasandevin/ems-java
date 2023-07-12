@@ -7,6 +7,8 @@ public class Main {
 //        Employee employee = new Employee("1", "John Doe", 30, "IT");
 //        employeeDAO.addEmployee(employee);
         //get employee by id
-         employeeDAO.deleteEmployee(1);
+
+        Employee employee = new Employee("1", "John Doe", 30, "IT");
+         employeeDAO.updateEmployee(employee);
     }
 }
