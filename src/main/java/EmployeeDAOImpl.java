@@ -7,19 +7,19 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    Connection dbConnection;
+    private final Connection dbConnection;
+    private PreparedStatement statement;
+    private ResultSet resultSet;
 
     EmployeeDAOImpl() {
         dbConnection = SQLDatabase.getDBConnection();
     }
 
-
     @Override
     public void addEmployee(Employee employee) {
+
         String sql = "INSERT INTO employee (id, name, age, department) VALUES (?, ?, ?, ?)";
 
-        // Creating a prepared statement with the query
-        PreparedStatement statement;
         try {
             statement = dbConnection.prepareStatement(sql);
 
@@ -49,13 +49,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         String sql = "SELECT id, name, age, department FROM employee WHERE id = ?";
 
         // Creating a prepared statement with the query
-        PreparedStatement statement = dbConnection.prepareStatement(sql);
+        statement = dbConnection.prepareStatement(sql);
 
         // Setting the employee ID parameter
         statement.setInt(1, employeeId);
 
         // Executing the query
-        ResultSet resultSet = statement.executeQuery();
+        resultSet = statement.executeQuery();
 
         Employee employee;
 
@@ -80,7 +80,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         try {
             // Creating a prepared statement with the query
-            PreparedStatement statement = dbConnection.prepareStatement(sql);
+            statement = dbConnection.prepareStatement(sql);
 
             // Setting the parameters
             statement.setString(1, employee.getName());
@@ -110,7 +110,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         try {
             // Creating a prepared statement with the query
-            PreparedStatement statement = dbConnection.prepareStatement(sql);
+            statement = dbConnection.prepareStatement(sql);
 
             // Setting the employee ID parameter
             int employeeId = id; // Replace with the ID of the employee you want to delete
@@ -139,10 +139,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         try {
             // Creating a prepared statement with the query
-            PreparedStatement statement = dbConnection.prepareStatement(sql);
+            statement = dbConnection.prepareStatement(sql);
 
             // Executing the query
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             // Processing the result set
             while (resultSet.next()) {
@@ -165,6 +165,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("No employees found in the database");
         }
+
         return employees;
     }
 }
