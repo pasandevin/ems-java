@@ -1,3 +1,5 @@
+import constants.UIConstants;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -58,35 +60,35 @@ public class EmployeeManagementUI {
     }
 
     private void printChoices() {
-        System.out.println("Enter What you want to do");
-        System.out.println("1. Add Employee");
-        System.out.println("2. Get Employee by ID");
-        System.out.println("3. Update Employee");
-        System.out.println("4. Delete Employee");
-        System.out.println("5. Get All Employees");
-        System.out.println("6. Exit");
+        System.out.println(UIConstants.ASK_CHOICE);
+        System.out.println(UIConstants.CHOICE_1);
+        System.out.println(UIConstants.CHOICE_2);
+        System.out.println(UIConstants.CHOICE_3);
+        System.out.println(UIConstants.CHOICE_4);
+        System.out.println(UIConstants.CHOICE_5);
+        System.out.println(UIConstants.CHOICE_6);
     }
 
     private void printEmployeeDetails(Employee employee) {
-        System.out.println("Employee ID: " + employee.getId());
-        System.out.println("Employee Name: " + employee.getName());
-        System.out.println("Employee Age: " + employee.getAge());
-        System.out.println("Employee Department: " + employee.getDepartment());
+        System.out.println(UIConstants.PRINT_ID + employee.getId());
+        System.out.println(UIConstants.PRINT_NAME + employee.getName());
+        System.out.println(UIConstants.PRINT_AGE + employee.getAge());
+        System.out.println(UIConstants.PRINT_DEPARTMENT+ employee.getDepartment());
     }
 
     private Employee getEmployeeDetailsFromUser() {
         int id = getEmployeeIdFromUser();
-        System.out.println("Enter Employee Name");
+        System.out.println(UIConstants.ASK_NAME);
         String name = scanner.next();
-        System.out.println("Enter Employee Age");
+        System.out.println(UIConstants.ASK_AGE);
         int age = scanner.nextInt();
-        System.out.println("Enter Employee Department");
+        System.out.println(UIConstants.ASK_DEPARTMENT);
         String department = scanner.next();
         return new Employee(id, name, age, department);
     }
 
     private int getEmployeeIdFromUser() {
-        System.out.println("Enter Employee ID");
+        System.out.println(UIConstants.ASK_ID);
         int id = scanner.nextInt();
         return id;
     }
