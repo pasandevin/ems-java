@@ -4,7 +4,9 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
         //create employee
-        Employee employee = new Employee("1", "John Doe", 30, "IT");
-        employeeDAO.addEmployee(employee);
+//        Employee employee = new Employee("1", "John Doe", 30, "IT");
+//        employeeDAO.addEmployee(employee);
+        //get employee by id
+         employeeDAO.deleteEmployee(1);
     }
 }
