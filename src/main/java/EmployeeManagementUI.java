@@ -19,41 +19,57 @@ public class EmployeeManagementUI {
         do {
             printChoices();
             choice = scanner.nextInt();
+            Employee employee;
+            int id;
 
-            if(choice == 1) {
-                Employee employee = getEmployeeDetailsFromUser();
-                employeeDAO.addEmployee(employee);
+            switch (choice) {
+                case 1:
+                    employee = getEmployeeDetailsFromUser();
+                    employeeDAO.addEmployee(employee);
+                    break;
 
-            } else if (choice == 2) {
-                int id = getEmployeeIdFromUser();
-                try {
-                    Employee employee = employeeDAO.getEmployeeById(id);
-                    printEmployeeDetails(employee);
-                } catch (EmployeeNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            } else if (choice == 3) {
-                Employee employee = getEmployeeDetailsFromUser();
-                employeeDAO.updateEmployee(employee);
-
-            } else if (choice == 4) {
-                int id = getEmployeeIdFromUser();
-                employeeDAO.deleteEmployee(id);
-
-            } else if (choice == 5) {
-                try {
-                    for (Employee employee : employeeDAO.getAllEmployees()) {
+                case 2:
+                    id = getEmployeeIdFromUser();
+                    try {
+                        employee = employeeDAO.getEmployeeById(id);
                         printEmployeeDetails(employee);
+                    } catch (EmployeeNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (EmployeeNotFoundException e) {
-                    e.printStackTrace();
-                }
+                    break;
 
+                case 3:
+                    employee = getEmployeeDetailsFromUser();
+                    employeeDAO.updateEmployee(employee);
+                    break;
+
+                case 4:
+                    id = getEmployeeIdFromUser();
+                    employeeDAO.deleteEmployee(id);
+                    break;
+
+                case 5:
+                    try {
+                        for (Employee employeeIterator : employeeDAO.getAllEmployees()) {
+                            printEmployeeDetails(employeeIterator);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (EmployeeNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case 6:
+                    System.out.println(UIConstants.EXIT_MSG);
+                    scanner.close();
+                    break;
+
+                default:
+                    System.out.println(UIConstants.INVALID_CHOICE_MSG);
+                    break;
             }
 
         } while (choice != 6);
