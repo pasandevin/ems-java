@@ -17,7 +17,7 @@ public class EmployeeManagementUI {
         int choice;
 
         do {
-            printChoices();
+            System.out.println(UIConstants.WELCOME_MSG);
             choice = scanner.nextInt();
             Employee employee;
             int id;
@@ -73,16 +73,6 @@ public class EmployeeManagementUI {
             }
 
         } while (choice != 6);
-    }
-
-    private void printChoices() {
-        System.out.println(UIConstants.ASK_CHOICE);
-        System.out.println(UIConstants.CHOICE_1);
-        System.out.println(UIConstants.CHOICE_2);
-        System.out.println(UIConstants.CHOICE_3);
-        System.out.println(UIConstants.CHOICE_4);
-        System.out.println(UIConstants.CHOICE_5);
-        System.out.println(UIConstants.CHOICE_6);
     }
 
     private void printEmployeeDetails(Employee employee) {
