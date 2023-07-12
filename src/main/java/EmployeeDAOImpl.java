@@ -72,6 +72,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             statement.close();
             resultSet.close();
         } else {
+
+            // Throwing an exception if no employee with the given ID is found
             throw new EmployeeNotFoundException(DataAccessConstants.NO_EMPLOYEE_WITH_ID_ERR_MSG);
         }
         return employee;
@@ -84,6 +86,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         String sql = DataAccessConstants.UPDATE_EMPLOYEE_QUERY;
 
         try {
+
             // Creating a prepared statement with the query
             statement = dbConnection.prepareStatement(sql);
 
@@ -129,6 +132,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             } else {
                 System.out.println(DataAccessConstants.NO_EMPLOYEE_WITH_ID_ERR_MSG);
             }
+
             // Closing the result set, and statement
             statement.close();
             resultSet.close();
@@ -169,6 +173,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             throw e;
         }
 
+        // Throwing an exception if no employees were found
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException(DataAccessConstants.ZERO_EMPLOYEES_ERR_MSG);
         }
